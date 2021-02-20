@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="2dp"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:background="@drawable/oval"/>
+
+    <TextView
+        android:id="@+id/subtask_text"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_regular"
+        android:text="Talk about design processes."
+        android:textSize="12sp"
+        android:textColor="#474646"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp" />
+
+</LinearLayout>

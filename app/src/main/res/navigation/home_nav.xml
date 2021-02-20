@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_nav"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.ismkr.schedio.fragments.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_taskFragment"
+            app:destination="@id/taskFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_projectFragment"
+            app:destination="@id/projectFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_journalFragment"
+            app:destination="@id/journalFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_profilFragment"
+            app:destination="@id/profilFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/taskFragment"
+        android:name="com.ismkr.schedio.fragments.home.TaskFragment"
+        android:label="fragment_task"
+        tools:layout="@layout/fragment_task" >
+        <action
+            android:id="@+id/action_taskFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_taskFragment_to_profilFragment"
+            app:destination="@id/profilFragment" />
+        <action
+            android:id="@+id/action_taskFragment_to_journalFragment"
+            app:destination="@id/journalFragment" />
+        <action
+            android:id="@+id/action_taskFragment_to_projectFragment"
+            app:destination="@id/projectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/projectFragment"
+        android:name="com.ismkr.schedio.fragments.home.ProjectFragment"
+        android:label="fragment_project"
+        tools:layout="@layout/fragment_project" >
+        <action
+            android:id="@+id/action_projectFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_projectFragment_to_taskFragment"
+            app:destination="@id/taskFragment" />
+        <action
+            android:id="@+id/action_projectFragment_to_journalFragment"
+            app:destination="@id/journalFragment" />
+        <action
+            android:id="@+id/action_projectFragment_to_profilFragment"
+            app:destination="@id/profilFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/journalFragment"
+        android:name="com.ismkr.schedio.fragments.home.JournalFragment"
+        android:label="fragment_journal"
+        tools:layout="@layout/fragment_journal" >
+        <action
+            android:id="@+id/action_journalFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_journalFragment_to_taskFragment"
+            app:destination="@id/taskFragment" />
+        <action
+            android:id="@+id/action_journalFragment_to_projectFragment"
+            app:destination="@id/projectFragment" />
+        <action
+            android:id="@+id/action_journalFragment_to_profilFragment"
+            app:destination="@id/profilFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profilFragment"
+        android:name="com.ismkr.schedio.fragments.home.ProfilFragment"
+        android:label="fragment_profil"
+        tools:layout="@layout/fragment_profil" >
+        <action
+            android:id="@+id/action_profilFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_profilFragment_to_taskFragment"
+            app:destination="@id/taskFragment" />
+        <action
+            android:id="@+id/action_profilFragment_to_journalFragment"
+            app:destination="@id/journalFragment" />
+        <action
+            android:id="@+id/action_profilFragment_to_projectFragment"
+            app:destination="@id/projectFragment" />
+    </fragment>
+</navigation>

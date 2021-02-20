@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:enabled="true"
+        android:title="Home"
+        android:icon="@drawable/ic_home_24"/>
+
+    <item
+        android:id="@+id/taskFragment"
+        android:enabled="true"
+        android:title="Task"
+        android:icon="@drawable/ic_task_24"/>
+
+    <item
+        android:id="@+id/projectFragment"
+        android:enabled="true"
+        android:title="Project"
+        android:icon="@drawable/ic_project_24"/>
+
+    <item
+        android:id="@+id/journalFragment"
+        android:enabled="true"
+        android:title="Journal"
+        android:icon="@drawable/ic_journal_24"/>
+
+    <item
+        android:id="@+id/profilFragment"
+        android:enabled="true"
+        android:title="Profil"
+        android:icon="@drawable/ic_profil_24"/>
+
+</menu>

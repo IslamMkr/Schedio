@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/log_in_nav"
+    app:startDestination="@id/logInMain">
+
+    <fragment
+        android:id="@+id/logInMain"
+        android:name="com.ismkr.schedio.fragments.login.LogInMain"
+        android:label="fragment_log_in_main"
+        tools:layout="@layout/fragment_log_in_main" >
+        <action
+            android:id="@+id/action_logInMain_to_signUp"
+            app:destination="@id/signUp" />
+        <action
+            android:id="@+id/action_logInMain_to_resetPassword"
+            app:destination="@id/resetPassword" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUp"
+        android:name="com.ismkr.schedio.fragments.login.SignUp"
+        android:label="fragment_log_in_email"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUp_to_logInMain"
+            app:destination="@id/logInMain" />
+    </fragment>
+    <fragment
+        android:id="@+id/resetPassword"
+        android:name="com.ismkr.schedio.fragments.login.ResetPassword"
+        android:label="fragment_reset_password"
+        tools:layout="@layout/fragment_reset_password" >
+        <action
+            android:id="@+id/action_resetPassword_to_logInMain"
+            app:destination="@id/logInMain" />
+    </fragment>
+</navigation>

@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Schédio</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="log_in">Log In</string>
+    <string name="welcome">Welcome</string>
+    <string name="sign_in_to_make_every_day_counts">Sign in to make every day counts.</string>
+    <string name="email">Email</string>
+    <string name="name_example_com">name@example.com</string>
+    <string name="password">Password</string>
+    <string name="password_">password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="or_via_social_media">Or via social media</string>
+    <string name="sign_in_with_google">Sign In with Google</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="join_us_to_get_the_best_out_of_yourself">Join us to get the best out of yourself.</string>
+    <string name="username">Username</string>
+    <string name="islam_mokrane">Islam Mokrane</string>
+    <string name="have_an_account">Have an account?</string>
+    <string name="show_password">Show password</string>
+    <string name="send_reset_link">Send reset link</string>
+    <string name="search_something">Search for projects or tasks</string>
+    <string name="my_projects">Projects</string>
+    <string name="my_tasks">Tasks</string>
+
+    <string name="month_01">January</string>
+    <string name="month_02">February</string>
+    <string name="month_03">March</string>
+    <string name="month_04">April</string>
+    <string name="month_05">May</string>
+    <string name="month_06">June</string>
+    <string name="month_07">July</string>
+    <string name="month_08">August</string>
+    <string name="month_09">September</string>
+    <string name="month_10">October</string>
+    <string name="month_11">November</string>
+    <string name="month_12">December</string>
+
+    <string name="good_morning">Good morning</string>
+
+</resources>
