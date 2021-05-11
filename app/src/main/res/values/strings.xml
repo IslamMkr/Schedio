@@ -38,5 +38,9 @@
     <string name="month_12">December</string>
 
     <string name="good_morning">Good morning</string>
+    <string name="add_task">Add Task</string>
+    <string name="create_a_new_task">Create a new task</string>
+    <string name="name">Name</string>
+    <string name="date">Date</string>
 
 </resources>

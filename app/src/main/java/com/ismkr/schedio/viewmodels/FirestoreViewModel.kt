@@ -14,6 +14,7 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
 
     lateinit var userTodayTasksLiveData: LiveData<List<Task>>
     lateinit var userProjectsLiveData: LiveData<List<Project>>
+    lateinit var userSpecificDayTasksLiveData: LiveData<List<Task>>
 
     fun getUserTodayTasks(user: User) {
         userTodayTasksLiveData = firestoreRepository.getUserTodayTasks(user)
@@ -21,6 +22,10 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun getUserProjects(user: User) {
         userProjectsLiveData = firestoreRepository.getUserProjects(user)
+    }
+
+    fun getSpecificDayTasks(user: User, date: String) {
+        userSpecificDayTasksLiveData = firestoreRepository.getSpecificDayTasks(user, date)
     }
 
 }

@@ -43,6 +43,7 @@ class FirestoreRepository {
                             task.description = document.get("description").toString()
                             tasksList.add(task)
                         }
+
                         dayTasksMutableLiveData.value = tasksList.toList()
                     } else {
                         dayTasksMutableLiveData.value = null
@@ -78,6 +79,7 @@ class FirestoreRepository {
                         project.creationDate = document.get("creation_date").toString()
                         projectsList.add(project)
                     }
+
                     projectsMutableLiveData.value = projectsList.toList()
                 } else {
                     projectsMutableLiveData.value = null
@@ -85,6 +87,44 @@ class FirestoreRepository {
             }
 
         return projectsMutableLiveData
+    }
+
+    fun getSpecificDayTasks(user: User, date: String): LiveData<List<Task>> {
+        val specificDayTasksMutableLiveData = MutableLiveData<List<Task>>()
+
+        tasksRef.whereEqualTo("uid", user.uid)
+                .whereEqualTo("date", date)
+                .orderBy("time", Query.Direction.ASCENDING)
+                .addSnapshotListener {
+                    snapshot, e ->
+                    if (e != null) {
+                        e.message?.let { Error.logErrorMessage(TAG, it) }
+                        return@addSnapshotListener
+                    }
+
+                    if (snapshot != null && !snapshot.isEmpty) {
+                        val docs = snapshot.documents
+                        val tasksList = mutableListOf<Task>()
+
+                        for (document in docs) {
+                            val task = Task()
+                            task.tid = document.id
+                            task.uid = document.get("uid").toString()
+                            task.name = document.get("name").toString()
+                            task.date = document.get("date").toString()
+                            task.time = document.get("time").toString()
+                            task.description = document.get("description").toString()
+                            task.duration = document.get("duration").toString()
+                            tasksList.add(task)
+                        }
+
+                        specificDayTasksMutableLiveData.value = tasksList.toList()
+                    } else {
+                        specificDayTasksMutableLiveData.value = null
+                    }
+                }
+
+        return specificDayTasksMutableLiveData
     }
 
     companion object {

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardElevation="0dp"
-    app:cardCornerRadius="25dp"
+    app:cardCornerRadius="12dp"
     android:layout_marginStart="6dp"
     android:layout_marginEnd="6dp"
     android:layout_marginBottom="12dp">
@@ -38,21 +38,6 @@
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
-            <com.ramijemli.percentagechartview.PercentageChartView
-                android:id="@+id/project_progress"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                app:pcv_mode="ring"
-                app:pcv_startAngle="270"
-                app:pcv_orientation="clockwise"
-                app:pcv_textColor="@color/blue"
-                app:pcv_backgroundBarColor="@color/background_color"
-                app:pcv_backgroundBarThickness="4dp"
-                app:pcv_progress="65"
-                app:pcv_progressColor="@color/blue"
-                app:pcv_progressBarThickness="4dp"
-                app:pcv_animDuration="800"
-                app:pcv_animInterpolator="anticipate_overshoot" />
 
         </LinearLayout>
 
@@ -70,23 +55,23 @@
             android:layout_marginLeft="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="8dp"/>
 
         <TextView
             android:id="@+id/project_days_left"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fontFamily="@font/roboto_bold"
+            android:fontFamily="@font/roboto_light"
             android:maxLines="2"
             android:ellipsize="end"
             android:text="2 month left"
-            android:textColor="@color/low_black"
-            android:textSize="14sp"
+            android:textColor="@color/blue"
+            android:textSize="12sp"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="10dp"/>
 
     </LinearLayout>
 

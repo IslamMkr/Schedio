@@ -1,5 +1,6 @@
 package com.ismkr.schedio.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.LiveData
@@ -20,6 +21,8 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var user: User
     private lateinit var firestoreViewModel: FirestoreViewModel
 
+    private lateinit var navHostFragment: NavHostFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -33,7 +36,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setUpNavigation() {
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         binding.bottomNav.setupWithNavController(navHostFragment.navController)
     }
 
@@ -47,8 +50,19 @@ class HomeActivity : AppCompatActivity() {
         return firestoreViewModel.userProjectsLiveData
     }
 
+    fun getSpecificDayTasks(date: String): LiveData<List<Task>> {
+        firestoreViewModel.getSpecificDayTasks(user, date)
+        return firestoreViewModel.userSpecificDayTasksLiveData
+    }
+
     fun getUser(): User {
         return user
+    }
+
+    fun logout() {
+        val intent = Intent(this, LogInActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
 }

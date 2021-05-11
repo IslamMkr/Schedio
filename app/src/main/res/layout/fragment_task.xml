@@ -11,184 +11,72 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:padding="16dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/date_picker"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:layout_marginTop="16dp">
+                android:background="@color/background_color"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/date"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="February 05"
+                    android:text="02 March, 2020"
                     android:textColor="@color/black"
-                    android:textSize="23sp" />
+                    android:textSize="18sp" />
 
                 <ImageView
-                    android:id="@+id/calendar"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/calendar"
-                    android:padding="4dp"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_arrow_down_24" />
 
             </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginTop="16dp"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp"
-                android:layout_marginBottom="16dp">
+            <Button
+                android:id="@+id/add_task_button"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:backgroundTint="@color/blue"
+                android:text="@string/add_task"
+                app:icon="@drawable/ic_add_24"
+                android:fontFamily="@font/roboto_medium"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <com.ramijemli.percentagechartview.PercentageChartView
-                    android:id="@+id/chart"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    app:pcv_backgroundBarColor="@color/background_color"
-                    app:pcv_backgroundBarThickness="5dp"
-                    app:pcv_mode="ring"
-                    app:pcv_orientation="clockwise"
-                    app:pcv_progress="65"
-                    app:pcv_progressBarThickness="10dp"
-                    app:pcv_progressColor="@color/blue"
-                    app:pcv_startAngle="270"
-                    app:pcv_textColor="@color/blue"
-                    app:pcv_textSize="18sp"
-                    app:pcv_animDuration="800"
-                    app:pcv_animInterpolator="anticipate_overshoot"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <ImageView
-                    android:id="@+id/textView17"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_check_circle_24"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView15"
-                    app:layout_constraintEnd_toStartOf="@id/done_percentage"
-                    app:layout_constraintTop_toTopOf="@id/done_percentage" />
-
-                <TextView
-                    android:id="@+id/done_percentage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="10 Tasks"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.885"
-                    app:layout_constraintStart_toEndOf="@+id/chart"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView15"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Done"
-                    android:textSize="12sp"
-                    app:layout_constraintStart_toStartOf="@id/done_percentage"
-                    app:layout_constraintTop_toBottomOf="@id/done_percentage" />
-
-                <TextView
-                    android:id="@+id/textView16"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Missed"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/textView15" />
-
-                <TextView
-                    android:id="@+id/missed_percentage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="2 Tasks"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toTopOf="@+id/textView16"
-                    app:layout_constraintStart_toStartOf="@+id/textView16" />
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_missed_24"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView16"
-                    app:layout_constraintEnd_toStartOf="@+id/missed_percentage"
-                    app:layout_constraintTop_toTopOf="@+id/missed_percentage"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp" />
-
-                <LinearLayout
-                    android:id="@+id/linearLayout5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="@+id/chart"
-                    app:layout_constraintStart_toStartOf="@+id/missed_percentage"
-                    app:layout_constraintTop_toTopOf="@+id/chart">
-
-                    <TextView
-                        android:id="@+id/todo_percentage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="5 Tasks"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/textView18"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="To Do"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_todo_24"
-                    app:layout_constraintBottom_toBottomOf="@+id/linearLayout5"
-                    app:layout_constraintEnd_toStartOf="@+id/linearLayout5"
-                    app:layout_constraintTop_toTopOf="@+id/linearLayout5"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/timeline_recycler_view"
+            android:id="@+id/tasks_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/no_tasks_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"/>
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:text="No tasks for this day..."
+            android:gravity="center"
+            android:layout_marginTop="100dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

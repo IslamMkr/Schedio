@@ -40,6 +40,9 @@
         <action
             android:id="@+id/action_taskFragment_to_projectFragment"
             app:destination="@id/projectFragment" />
+        <action
+            android:id="@+id/action_taskFragment_to_addTaskFragment"
+            app:destination="@id/addTaskFragment" />
     </fragment>
     <fragment
         android:id="@+id/projectFragment"
@@ -58,6 +61,9 @@
         <action
             android:id="@+id/action_projectFragment_to_profilFragment"
             app:destination="@id/profilFragment" />
+        <action
+            android:id="@+id/action_projectFragment_to_addTaskFragment"
+            app:destination="@id/addTaskFragment" />
     </fragment>
     <fragment
         android:id="@+id/journalFragment"
@@ -93,6 +99,18 @@
             app:destination="@id/journalFragment" />
         <action
             android:id="@+id/action_profilFragment_to_projectFragment"
+            app:destination="@id/projectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addTaskFragment"
+        android:name="com.ismkr.schedio.fragments.home.AddTaskFragment"
+        android:label="fragment_add_task"
+        tools:layout="@layout/fragment_add_task" >
+        <action
+            android:id="@+id/action_addTaskFragment_to_taskFragment"
+            app:destination="@id/taskFragment" />
+        <action
+            android:id="@+id/action_addTaskFragment_to_projectFragment"
             app:destination="@id/projectFragment" />
     </fragment>
 </navigation>

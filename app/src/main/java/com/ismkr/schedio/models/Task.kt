@@ -6,7 +6,8 @@ data class Task(
     var name: String = "",
     var date: String = "",
     var time: String = "",
-    var description: String = ""
+    var description: String = "",
+    var duration: String = ""
 ) {
     val subTasks = mutableListOf<String>()
     var creationDate: String = ""

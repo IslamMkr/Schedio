@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import com.ismkr.schedio.activities.HomeActivity
 import com.ismkr.schedio.databinding.FragmentProfilBinding
 import com.ismkr.schedio.viewmodels.AuthViewModel
 
@@ -32,6 +33,7 @@ class ProfilFragment : Fragment() {
 
     private fun disconnect() {
         authViewModel.logOut()
+        (activity as HomeActivity).logout()
     }
 
 }

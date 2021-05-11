@@ -7,15 +7,14 @@ import java.util.*
 
 object DateUtils {
 
-    val calendar = Calendar.getInstance()
+    private val calendar: Calendar = Calendar.getInstance()
+    
+    private val simpleDateFormat = SimpleDateFormat("MM/dd/yyyy", Locale.FRANCE)
+    private val simpleTimeFormat = SimpleDateFormat("HH:mm", Locale.FRANCE)
 
-    val todayDate: String get() {
-        val today = calendar.time
-        val pattern = "MM/dd/yyyy"
-        val simpleDateFormat = SimpleDateFormat(pattern)
+    val todayDate: String get() = simpleDateFormat.format(calendar.time)
 
-        return simpleDateFormat.format(today)
-    }
+    fun formatDate(date: Date) : String = simpleDateFormat.format(date.time)
 
     fun getYear(): Int {
         return calendar.get(Calendar.YEAR)
@@ -46,5 +45,30 @@ object DateUtils {
     }
 
     fun getThisMonthResId(): Int = getMonthResId(calendar.get(Calendar.MONTH))
+
+    fun compareTime(time: String, duration: String): Int {
+        val startTime = simpleTimeFormat.parse(time)
+        val endTime = Date(startTime!!.time + simpleTimeFormat.parse(duration)!!.time)
+
+        val currentTime = simpleTimeFormat.parse("${calendar.get(Calendar.HOUR_OF_DAY)}:${calendar.get(Calendar.MINUTE)}")
+
+        if (currentTime!!.time >= startTime.time && currentTime.time < endTime.time) {
+            return 1
+        } else if (currentTime!!.time - endTime.time >= 0) {
+            return -1
+        }
+
+        return 0
+    }
+
+    fun getTimeDifference(time: String, duration: String): String {
+        val startTime = simpleTimeFormat.parse(time)
+        val currentTime = simpleTimeFormat.parse("${calendar.get(Calendar.HOUR_OF_DAY)}:${calendar.get(Calendar.MINUTE)}")
+
+        return when {
+            currentTime!!.time - startTime!!.time >= 0 -> simpleTimeFormat.format(Date(currentTime!!.time - startTime!!.time))
+            else                                       -> simpleTimeFormat.format(Date(startTime!!.time - currentTime!!.time))
+        }
+    }
 
 }
