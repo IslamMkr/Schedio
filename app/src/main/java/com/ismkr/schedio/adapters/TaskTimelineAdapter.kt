@@ -10,7 +10,6 @@ import com.github.vipulasri.timelineview.TimelineView
 import com.ismkr.schedio.R
 import com.ismkr.schedio.models.Task
 import com.ismkr.schedio.utils.DateUtils
-import com.ismkr.schedio.utils.Error
 
 class TaskTimelineAdapter(val context: Context)
     : RecyclerView.Adapter<TaskTimelineAdapter.ViewHolder>() {
@@ -28,8 +27,6 @@ class TaskTimelineAdapter(val context: Context)
             LayoutInflater.from(parent.context).inflate(R.layout.item_timeline_off, parent, false)
         }
 
-        Error.logErrorMessage("E", "viewType = $viewType")
-
         return ViewHolder(itemView, viewType)
     }
 
@@ -37,10 +34,15 @@ class TaskTimelineAdapter(val context: Context)
         val task = tasksList[position]
 
         holder.title.text = task.name
-        holder.desc.text = task.description
         holder.hour.text = task.time
 
-        val timeDiff = DateUtils.getTimeDifference(task.time, task.duration).split(":")
+        if (task.description.isBlank()) {
+            holder.desc.visibility = View.GONE
+        } else {
+            holder.desc.text = task.description
+        }
+
+        val timeDiff = DateUtils.getTimeDifference(task.time).split(":")
 
         holder.timeDif.text = if (timeDiff[0].toInt() == 0) {
             val diff = "${timeDiff[1]} minutes"

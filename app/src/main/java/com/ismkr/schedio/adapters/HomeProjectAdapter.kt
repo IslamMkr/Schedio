@@ -1,15 +1,20 @@
 package com.ismkr.schedio.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.card.MaterialCardView
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.ismkr.schedio.R
+import com.ismkr.schedio.models.Priority
 import com.ismkr.schedio.models.Project
+import com.ismkr.schedio.utils.DateUtils
 
-class HomeProjectAdapter : RecyclerView.Adapter<HomeProjectAdapter.ViewHolder>() {
+class HomeProjectAdapter(
+    val context: Context
+) : RecyclerView.Adapter<HomeProjectAdapter.ViewHolder>() {
 
     private val projectList = mutableListOf<Project>()
 
@@ -22,7 +27,30 @@ class HomeProjectAdapter : RecyclerView.Adapter<HomeProjectAdapter.ViewHolder>()
         val currentProject = projectList[position]
 
         holder.projectName.text = currentProject.name
-        holder.projectDesc.text = currentProject.description
+
+        holder.projectPriority.text = when (currentProject.priority) {
+            Priority.HIGH -> {
+                holder.projectPriority.setTextColor(context.resources.getColor(R.color.priority_high))
+                "High"
+            }
+            Priority.MEDIUM -> {
+                holder.projectPriority.setTextColor(context.resources.getColor(R.color.priority_medium))
+                "Med"
+            }
+            else -> {
+                holder.projectPriority.setTextColor(context.resources.getColor(R.color.priority_low))
+                "Low"
+            }
+        }
+
+        val daysLeft = DateUtils.calculateTimeLeft(currentProject.deadline)
+
+        holder.projectTimeLeft.text = "$daysLeft days"
+        holder.projectCompletedActivities.text = "2/8"
+        holder.projectProgressBar.progress = currentProject.progress
+
+        val progress = "${currentProject.progress}%"
+        holder.projectProgress.text = progress
     }
 
     override fun getItemCount(): Int = projectList.size
@@ -34,10 +62,13 @@ class HomeProjectAdapter : RecyclerView.Adapter<HomeProjectAdapter.ViewHolder>()
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val card = itemView.findViewById<MaterialCardView>(R.id.card)
         val projectName = itemView.findViewById<TextView>(R.id.project_name)
-        val projectDesc = itemView.findViewById<TextView>(R.id.project_description)
-        val projectDayLeft = itemView.findViewById<TextView>(R.id.project_days_left)
+        val projectPriority = itemView.findViewById<TextView>(R.id.project_priority)
+        val projectTimeLeft = itemView.findViewById<TextView>(R.id.project_time_left)
+        val projectCompletedActivities = itemView.findViewById<TextView>(R.id.project_completed_activities)
+        val projectProgressBar = itemView.findViewById<LinearProgressIndicator>(R.id.project_progress_bar)
+        val projectProgress = itemView.findViewById<TextView>(R.id.project_progress)
+        //val projectMembersRecyclerView = itemView.findViewById<RecyclerView>(R.id.project_members_recyclerview)
     }
 
 }

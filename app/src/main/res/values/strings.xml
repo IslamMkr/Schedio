@@ -42,5 +42,28 @@
     <string name="create_a_new_task">Create a new task</string>
     <string name="name">Name</string>
     <string name="date">Date</string>
+    <string name="password_reset">Password reset</string>
+    <string name="due_in">Due in</string>
+
+    <string name="none">None</string>
+    <string name="sub_task">Sub-task</string>
+    <string name="cancel">Cancel</string>
+    <string name="add">Add</string>
+    <string name="your_sub_task">Your sub-task</string>
+
+    <string-array name="durations">
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>1 hour and 30 minutes</item>
+        <item>2 hours</item>
+        <item>2 hours and 30 minutes</item>
+        <item>3 hours</item>
+        <item>3 hours and 30 minutes</item>
+        <item>4 hours</item>
+        <item>5 hours</item>
+        <item>6 hours</item>
+        <item>7 hours</item>
+        <item>8 hours</item>
+    </string-array>
 
 </resources>

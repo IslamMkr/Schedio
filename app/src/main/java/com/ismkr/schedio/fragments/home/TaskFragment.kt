@@ -14,6 +14,7 @@ import com.ismkr.schedio.adapters.TaskTimelineAdapter
 import com.ismkr.schedio.databinding.FragmentTaskBinding
 import com.ismkr.schedio.models.User
 import com.ismkr.schedio.utils.DateUtils
+import com.ismkr.schedio.utils.Error
 import java.util.*
 
 
@@ -61,7 +62,7 @@ class TaskFragment : Fragment() {
                         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
                         // Retrieve the picked date in milliseconds from the calendar
-                        val date = DateUtils.formatDate(Date(calendar.timeInMillis))
+                        val date = DateUtils.dateAsString(Date(calendar.timeInMillis))
 
                         // Update the UI
                         updateDate(date)
@@ -79,9 +80,9 @@ class TaskFragment : Fragment() {
     private fun updateDate(date: String = DateUtils.todayDate) {
         val todayDate = date.split("/")
         val currentMonth = getString(DateUtils.getThisMonthResId())
-        val date = "${todayDate[1]} $currentMonth, ${todayDate[2]}"
+        val formattedDate = "$currentMonth ${todayDate[1]}, ${todayDate[2]}"
 
-        binding.date.text = date
+        binding.date.text = formattedDate
     }
 
     private fun setupRecyclerView() {
@@ -105,6 +106,9 @@ class TaskFragment : Fragment() {
                         binding.tasksRecyclerView.visibility = View.GONE
                         binding.noTasksTv.visibility = View.VISIBLE
                     } else {
+                        for (task in taskList) {
+                            Error.logErrorMessage("Islam", task.toString())
+                        }
                         binding.tasksRecyclerView.visibility = View.VISIBLE
                         binding.noTasksTv.visibility = View.GONE
                         adapter.setTasksList(taskList)

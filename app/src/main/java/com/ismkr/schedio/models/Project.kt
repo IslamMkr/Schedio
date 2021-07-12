@@ -5,9 +5,10 @@ data class Project(
         var uid: String = "",
         var name: String = "",
         var description: String = "",
-        var deadline: String = ""
+        var deadline: String = "",
+        var priority: Priority = Priority.LOW
 ) {
-    var progress: Float = 0.0f
+    var progress: Int = 0
     var taskList = mutableListOf<Task>()
     var team = mutableListOf<String>()
     var creationDate: String = ""

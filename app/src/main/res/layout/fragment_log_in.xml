@@ -22,7 +22,7 @@
             android:fontFamily="@font/roboto_medium"
             android:text="@string/welcome"
             android:textColor="@color/white_grey"
-            android:textSize="30sp"
+            android:textSize="23sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,7 +30,7 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/roboto_medium"
             android:text="@string/sign_in_to_make_every_day_counts"
             android:textColor="@color/white_grey"

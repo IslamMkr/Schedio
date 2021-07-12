@@ -5,16 +5,19 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.ismkr.schedio.R
 import com.ismkr.schedio.databinding.ActivityHomeBinding
+import com.ismkr.schedio.interfaces.OnDatabaseUpdated
 import com.ismkr.schedio.models.Project
 import com.ismkr.schedio.models.Task
 import com.ismkr.schedio.models.User
 import com.ismkr.schedio.viewmodels.FirestoreViewModel
+import com.ismkr.schedio.utils.Error
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), OnDatabaseUpdated {
 
     private lateinit var binding: ActivityHomeBinding
 
@@ -64,5 +67,20 @@ class HomeActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
+    fun addTask(task: Task) {
+        firestoreViewModel.addTask(user, task, this)
+    }
+
+    override fun onTaskAddedSuccessfully() {
+        navHostFragment.navController.navigateUp()
+        Error.makeToast(this, "Task added successfully.")
+    }
+
+    override fun onTaskAddFailed() {
+        Error.makeToast(this, "Failed to add task.")
+    }
+
+    override fun onProjectAddedSuccessfully() {}
 
 }

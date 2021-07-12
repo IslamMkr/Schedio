@@ -9,7 +9,7 @@
         android:id="@+id/logInMain"
         android:name="com.ismkr.schedio.fragments.login.LogInMain"
         android:label="fragment_log_in_main"
-        tools:layout="@layout/fragment_log_in_main" >
+        tools:layout="@layout/fragment_log_in" >
         <action
             android:id="@+id/action_logInMain_to_signUp"
             app:destination="@id/signUp" />

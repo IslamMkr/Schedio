@@ -25,7 +25,7 @@ class HomeTaskAdapter : RecyclerView.Adapter<HomeTaskAdapter.ViewHolder>() {
         holder.description.text = currentItem.description
 
         if (currentItem.subTasks.isNotEmpty()) {
-            val adapter = HomeTaskSubtaskAdapter()
+            val adapter = SubtaskAdapter()
 
             holder.subTaskRecyclerView.visibility = View.VISIBLE
             holder.subTaskRecyclerView.isNestedScrollingEnabled = false

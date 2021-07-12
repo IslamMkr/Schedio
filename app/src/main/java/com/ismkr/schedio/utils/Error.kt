@@ -2,6 +2,7 @@ package com.ismkr.schedio.utils
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 
 object Error {
 
@@ -22,6 +23,12 @@ object Error {
 
         return false
     }
+
+    fun makeToast(context: Context, msg: String) = Toast.makeText (
+        context,
+        msg,
+        Toast.LENGTH_SHORT
+    ).show()
 
     const val NO_ERROR = "Email sent"
 

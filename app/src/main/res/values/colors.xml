@@ -13,10 +13,14 @@
     <color name="low_black">#717171</color>
     <color name="pink">#db13a6</color>
     <color name="green">#47CD20</color>
-    <color name="red">#E63131</color>
+    <color name="red">#EC4343</color>
     <color name="yellow">#FFF31E</color>
 
     <color name="background_color">#f3f6ff</color>
 
     <color name="active_task_color">#E3EAFF</color>
+
+    <color name="priority_high">#FB6868</color>
+    <color name="priority_medium">#9BFB68</color>
+    <color name="priority_low">#68FBFB</color>
 </resources>

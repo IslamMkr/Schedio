@@ -20,14 +20,14 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.GoogleAuthProvider
 import com.ismkr.schedio.R
 import com.ismkr.schedio.activities.HomeActivity
-import com.ismkr.schedio.databinding.FragmentLogInMainBinding
+import com.ismkr.schedio.databinding.FragmentLogInBinding
 import com.ismkr.schedio.models.User
 import com.ismkr.schedio.viewmodels.AuthViewModel
 import com.ismkr.schedio.utils.Error
 
 class LogInMain : Fragment() {
 
-    private lateinit var binding: FragmentLogInMainBinding
+    private lateinit var binding: FragmentLogInBinding
 
     private lateinit var authViewModel: AuthViewModel
 
@@ -37,7 +37,7 @@ class LogInMain : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentLogInMainBinding.inflate(inflater, container, false)
+        binding = FragmentLogInBinding.inflate(inflater, container, false)
 
         authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
 

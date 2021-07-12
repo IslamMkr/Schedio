@@ -3,6 +3,7 @@ package com.ismkr.schedio.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import com.ismkr.schedio.interfaces.OnDatabaseUpdated
 import com.ismkr.schedio.models.Project
 import com.ismkr.schedio.models.Task
 import com.ismkr.schedio.models.User
@@ -26,6 +27,10 @@ class FirestoreViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun getSpecificDayTasks(user: User, date: String) {
         userSpecificDayTasksLiveData = firestoreRepository.getSpecificDayTasks(user, date)
+    }
+
+    fun addTask(user: User, task: Task, listener: OnDatabaseUpdated? = null) {
+        firestoreRepository.addTask(user, task, listener)
     }
 
 }

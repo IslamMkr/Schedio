@@ -47,7 +47,7 @@ class HomeFragment : Fragment() {
 
     private fun setupProjectRecyclerView() {
         val projectRecyclerView = binding.projectsRecyclerview
-        val adapter = HomeProjectAdapter()
+        val adapter = context?.let { HomeProjectAdapter(it) }
 
         projectRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         projectRecyclerView.isNestedScrollingEnabled = false
@@ -58,10 +58,9 @@ class HomeFragment : Fragment() {
             {
                 projectList ->
                 if (projectList != null) {
-                    Error.logErrorMessage("Error", "not null")
                     binding.noProjectsTv.visibility = View.GONE
                     projectRecyclerView.visibility = View.VISIBLE
-                    adapter.setProjectList(projectList)
+                    adapter?.setProjectList(projectList)
                 } else {
                     binding.noProjectsTv.visibility = View.VISIBLE
                     projectRecyclerView.visibility = View.GONE
