@@ -15,10 +15,12 @@ import com.ismkr.schedio.databinding.FragmentHomeBinding
 import com.ismkr.schedio.models.User
 import com.ismkr.schedio.utils.DateUtils
 import com.ismkr.schedio.utils.Error
+import com.ismkr.schedio.viewmodels.FirestoreViewModel
 
 class HomeFragment : Fragment() {
 
     private lateinit var homeActivity: HomeActivity
+    private lateinit var firestoreViewModel: FirestoreViewModel
     private lateinit var user: User
 
     private lateinit var binding: FragmentHomeBinding
@@ -29,6 +31,7 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         homeActivity = (activity as HomeActivity)
+        firestoreViewModel = homeActivity.firestoreViewModel()
         user = homeActivity.getUser()
 
         setupUserInformation()
@@ -53,7 +56,8 @@ class HomeFragment : Fragment() {
         projectRecyclerView.isNestedScrollingEnabled = false
         projectRecyclerView.adapter = adapter
 
-        homeActivity.getUserProjects().observe(
+        firestoreViewModel.getUserProjects(user)
+        firestoreViewModel.userProjectsLiveData.observe(
             viewLifecycleOwner,
             {
                 projectList ->
@@ -77,7 +81,8 @@ class HomeFragment : Fragment() {
         tasksRecyclerView.isNestedScrollingEnabled = false
         tasksRecyclerView.adapter = adapter
 
-        homeActivity.getUserTodayTasks().observe(
+        firestoreViewModel.getUserTodayTasks(user)
+        firestoreViewModel.userTodayTasksLiveData.observe(
             viewLifecycleOwner,
             {
                 taskList ->

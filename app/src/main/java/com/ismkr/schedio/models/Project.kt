@@ -9,7 +9,7 @@ data class Project(
         var priority: Priority = Priority.LOW
 ) {
     var progress: Int = 0
-    var taskList = mutableListOf<Task>()
+    var taskList = mutableListOf<Activity>()
     var team = mutableListOf<String>()
     var creationDate: String = ""
     var status: String = "New"

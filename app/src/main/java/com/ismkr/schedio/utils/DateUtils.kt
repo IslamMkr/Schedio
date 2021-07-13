@@ -20,6 +20,13 @@ object DateUtils {
 
     fun timeAsHM(date: Date) : String = simpleTimeFormat.format(date.time)
 
+    fun fromMDYFormatToUIFormat(date: String = todayDate, context: Context): String {
+        val today = date.split("/")
+        val currentMonth = context.getString(getThisMonthResId())
+
+        return "$currentMonth ${today[1]}, ${today[2]}"
+    }
+
     fun dateAsString(date: Date) : String = simpleDateFormat.format(date.time)
 
     fun dateAsMDYFormat(day: Int, month: Int, year: Int) = "${month+1}/$day/$year"

@@ -10,22 +10,26 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ismkr.schedio.R
 import com.ismkr.schedio.activities.HomeActivity
-import com.ismkr.schedio.adapters.TaskTimelineAdapter
+import com.ismkr.schedio.adapters.ActivitySectionAdapter
 import com.ismkr.schedio.databinding.FragmentTaskBinding
+import com.ismkr.schedio.models.Activity
+import com.ismkr.schedio.models.Section
 import com.ismkr.schedio.models.User
 import com.ismkr.schedio.utils.DateUtils
 import com.ismkr.schedio.utils.Error
+import com.ismkr.schedio.viewmodels.FirestoreViewModel
 import java.util.*
 
 
 class TaskFragment : Fragment() {
 
     private lateinit var homeActivity: HomeActivity
+    private lateinit var firestoreViewModel: FirestoreViewModel
     private lateinit var user: User
 
     private lateinit var binding: FragmentTaskBinding
 
-    private lateinit var adapter: TaskTimelineAdapter
+    private lateinit var adapter: ActivitySectionAdapter
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +37,7 @@ class TaskFragment : Fragment() {
     ): View? {
         binding = FragmentTaskBinding.inflate(inflater, container, false)
         homeActivity = (activity as HomeActivity)
+        firestoreViewModel = homeActivity.firestoreViewModel()
         user = homeActivity.getUser()
 
         updateDate()
@@ -44,13 +49,13 @@ class TaskFragment : Fragment() {
     }
 
     private fun setupAddTask() {
-        binding.addTaskButton.setOnClickListener {
+        binding.add.setOnClickListener {
             findNavController().navigate(R.id.action_taskFragment_to_addTaskFragment)
         }
     }
 
     private fun setupCalendarListener() {
-        binding.datePicker.setOnClickListener {
+        binding.calendar.setOnClickListener {
             DatePickerDialog(
                     requireContext(),
                     // Listener
@@ -78,16 +83,12 @@ class TaskFragment : Fragment() {
     }
 
     private fun updateDate(date: String = DateUtils.todayDate) {
-        val todayDate = date.split("/")
-        val currentMonth = getString(DateUtils.getThisMonthResId())
-        val formattedDate = "$currentMonth ${todayDate[1]}, ${todayDate[2]}"
-
-        binding.date.text = formattedDate
+        binding.date.text = DateUtils.fromMDYFormatToUIFormat(date, requireContext())
     }
 
     private fun setupRecyclerView() {
-        val recyclerView = binding.tasksRecyclerView
-        adapter = TaskTimelineAdapter(requireContext())
+        val recyclerView = binding.sectionsRecyclerView
+        adapter = ActivitySectionAdapter(requireContext())
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.isNestedScrollingEnabled = false
@@ -97,23 +98,12 @@ class TaskFragment : Fragment() {
     }
 
     private fun observeNewData(date: String = DateUtils.todayDate) {
-        homeActivity.getSpecificDayTasks(date).observe(
-                viewLifecycleOwner,
-                {
-                    taskList ->
-
-                    if (taskList == null) {
-                        binding.tasksRecyclerView.visibility = View.GONE
-                        binding.noTasksTv.visibility = View.VISIBLE
-                    } else {
-                        for (task in taskList) {
-                            Error.logErrorMessage("Islam", task.toString())
-                        }
-                        binding.tasksRecyclerView.visibility = View.VISIBLE
-                        binding.noTasksTv.visibility = View.GONE
-                        adapter.setTasksList(taskList)
+        firestoreViewModel.getSpecificDayTasks(user, date, viewLifecycleOwner)
+        firestoreViewModel.userSpecificDayTasksLiveData.observe(
+                viewLifecycleOwner, {
+                    sections ->
+                        adapter.setActivitySectionsList(sections!!)
                         adapter.notifyDataSetChanged()
-                    }
                 }
         )
     }

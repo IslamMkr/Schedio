@@ -8,7 +8,7 @@ import com.google.firebase.firestore.Query
 import com.ismkr.schedio.interfaces.OnDatabaseUpdated
 import com.ismkr.schedio.models.Priority
 import com.ismkr.schedio.models.Project
-import com.ismkr.schedio.models.Task
+import com.ismkr.schedio.models.Activity
 import com.ismkr.schedio.models.User
 import com.ismkr.schedio.utils.DateUtils
 import com.ismkr.schedio.utils.Error
@@ -19,8 +19,8 @@ class FirestoreRepository {
     private val tasksRef = rootRef.collection(TASKS)
     private val projectsRef = rootRef.collection(PROJECTS)
 
-    fun getUserTodayTasks(user: User) : MutableLiveData<List<Task>>{
-        val dayTasksMutableLiveData = MutableLiveData<List<Task>>()
+    fun getUserTodayTasks(user: User) : MutableLiveData<List<Activity>>{
+        val dayTasksMutableLiveData = MutableLiveData<List<Activity>>()
 
         tasksRef.whereEqualTo("uid", user.uid)
                 .whereEqualTo("date", DateUtils.todayDate)
@@ -34,7 +34,7 @@ class FirestoreRepository {
 
                     if (snapshot != null && !snapshot.isEmpty) {
                         val docs = snapshot.documents
-                        dayTasksMutableLiveData.value = extractTasks(docs).toList()
+                        dayTasksMutableLiveData.value = extractActivities(docs).toList()
 
                     } else {
                         dayTasksMutableLiveData.value = null
@@ -67,8 +67,8 @@ class FirestoreRepository {
         return projectsMutableLiveData
     }
 
-    fun getSpecificDayTasks(user: User, date: String): LiveData<List<Task>> {
-        val specificDayTasksMutableLiveData = MutableLiveData<List<Task>>()
+    fun getSpecificDayActivities(user: User, date: String): LiveData<List<Activity>> {
+        val specificDayActivitiesMutableLiveData = MutableLiveData<List<Activity>>()
 
         tasksRef.whereEqualTo("uid", user.uid)
                 .whereEqualTo("date", date)
@@ -82,19 +82,19 @@ class FirestoreRepository {
 
                     if (snapshot != null && !snapshot.isEmpty) {
                         val docs = snapshot.documents
-                        specificDayTasksMutableLiveData.value = extractTasks(docs).toList()
+                        specificDayActivitiesMutableLiveData.value = extractActivities(docs).toList()
 
                     } else {
-                        specificDayTasksMutableLiveData.value = null
+                        specificDayActivitiesMutableLiveData.value = null
                     }
                 }
 
-        return specificDayTasksMutableLiveData
+        return specificDayActivitiesMutableLiveData
     }
 
-    fun addTask(user: User, task: Task, listener: OnDatabaseUpdated?) {
-        task.uid = user.uid
-        tasksRef.add(task)
+    fun addTask(user: User, activity: Activity, listener: OnDatabaseUpdated?) {
+        activity.uid = user.uid
+        tasksRef.add(activity)
             .addOnSuccessListener {
                 listener?.onTaskAddedSuccessfully()
                 tasksRef.document(it.id).update("tid", it.id)
@@ -127,25 +127,27 @@ class FirestoreRepository {
         return projectsList
     }
 
-    private fun extractTasks(docs: MutableList<DocumentSnapshot>): MutableList<Task> {
-        val tasksList = mutableListOf<Task>()
+    private fun extractActivities(docs: MutableList<DocumentSnapshot>): MutableList<Activity> {
+        val activityList = mutableListOf<Activity>()
 
         for (document in docs) {
-            val task = Task()
-            task.tid = document.id
-            task.uid = document.get("uid").toString()
-            task.name = document.get("name").toString()
-            task.date = document.get("date").toString()
-            task.time = document.get("time").toString()
-            task.description = document.get("description").toString()
-            task.duration = document.get("duration").toString()
-            task.subTasks = document.get("subTasks") as MutableList<String>
-            task.link = document.get("link").toString()
-            task.creationDate = document.get("creationDate").toString()
-            tasksList.add(task)
+            val activity = Activity()
+            activity.tid = document.id
+            activity.uid = document.get("uid").toString()
+            activity.name = document.get("name").toString()
+            activity.date = document.get("date").toString()
+            activity.time = document.get("time").toString()
+            activity.description = document.get("description").toString()
+            activity.duration = document.get("duration").toString()
+            if (document.get("tasks") != null) {
+                activity.tasks.addAll(document.get("tasks") as MutableList<String>)
+            }
+            activity.link = document.get("link").toString()
+            activity.creationDate = document.get("creationDate").toString()
+            activityList.add(activity)
         }
 
-        return tasksList
+        return activityList
     }
 
     companion object {

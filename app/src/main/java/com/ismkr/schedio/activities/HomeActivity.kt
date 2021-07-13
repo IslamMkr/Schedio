@@ -5,14 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.ismkr.schedio.R
 import com.ismkr.schedio.databinding.ActivityHomeBinding
 import com.ismkr.schedio.interfaces.OnDatabaseUpdated
 import com.ismkr.schedio.models.Project
-import com.ismkr.schedio.models.Task
+import com.ismkr.schedio.models.Activity
 import com.ismkr.schedio.models.User
 import com.ismkr.schedio.viewmodels.FirestoreViewModel
 import com.ismkr.schedio.utils.Error
@@ -43,21 +42,6 @@ class HomeActivity : AppCompatActivity(), OnDatabaseUpdated {
         binding.bottomNav.setupWithNavController(navHostFragment.navController)
     }
 
-    fun getUserTodayTasks(): LiveData<List<Task>>{
-        firestoreViewModel.getUserTodayTasks(user)
-        return firestoreViewModel.userTodayTasksLiveData
-    }
-
-    fun getUserProjects(): LiveData<List<Project>> {
-        firestoreViewModel.getUserProjects(user)
-        return firestoreViewModel.userProjectsLiveData
-    }
-
-    fun getSpecificDayTasks(date: String): LiveData<List<Task>> {
-        firestoreViewModel.getSpecificDayTasks(user, date)
-        return firestoreViewModel.userSpecificDayTasksLiveData
-    }
-
     fun getUser(): User {
         return user
     }
@@ -68,14 +52,12 @@ class HomeActivity : AppCompatActivity(), OnDatabaseUpdated {
         finish()
     }
 
-    fun addTask(task: Task) {
-        firestoreViewModel.addTask(user, task, this)
-    }
-
     override fun onTaskAddedSuccessfully() {
         navHostFragment.navController.navigateUp()
         Error.makeToast(this, "Task added successfully.")
     }
+
+    fun firestoreViewModel() = firestoreViewModel
 
     override fun onTaskAddFailed() {
         Error.makeToast(this, "Failed to add task.")

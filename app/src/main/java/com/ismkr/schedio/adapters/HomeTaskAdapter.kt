@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ismkr.schedio.R
-import com.ismkr.schedio.models.Task
+import com.ismkr.schedio.models.Activity
 
 class HomeTaskAdapter : RecyclerView.Adapter<HomeTaskAdapter.ViewHolder>() {
 
-    private val taskList = mutableListOf<Task>()
+    private val taskList = mutableListOf<Activity>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_task_home, parent, false)
@@ -24,22 +24,22 @@ class HomeTaskAdapter : RecyclerView.Adapter<HomeTaskAdapter.ViewHolder>() {
         holder.time.text = currentItem.time
         holder.description.text = currentItem.description
 
-        if (currentItem.subTasks.isNotEmpty()) {
-            val adapter = SubtaskAdapter()
+        if (currentItem.tasks.isNotEmpty()) {
+            val adapter = TaskAdapter()
 
             holder.subTaskRecyclerView.visibility = View.VISIBLE
             holder.subTaskRecyclerView.isNestedScrollingEnabled = false
             holder.subTaskRecyclerView.adapter = adapter
 
-            adapter.setSubtasks(currentItem.subTasks.toList())
+            adapter.setTasks(currentItem.tasks.toList())
         }
     }
 
     override fun getItemCount(): Int = taskList.size
 
-    fun setTasks(tasks: List<Task>) {
+    fun setTasks(activities: List<Activity>) {
         taskList.clear()
-        taskList.addAll(tasks)
+        taskList.addAll(activities)
         notifyDataSetChanged()
     }
 

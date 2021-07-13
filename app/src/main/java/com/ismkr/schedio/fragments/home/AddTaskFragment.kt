@@ -16,19 +16,23 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ismkr.schedio.R
 import com.ismkr.schedio.activities.HomeActivity
-import com.ismkr.schedio.adapters.SubtaskAdapter
+import com.ismkr.schedio.adapters.TaskAdapter
 import com.ismkr.schedio.databinding.FragmentAddTaskBinding
 import com.ismkr.schedio.interfaces.OnItemClicked
-import com.ismkr.schedio.models.Task
+import com.ismkr.schedio.models.Activity
+import com.ismkr.schedio.models.User
 import com.ismkr.schedio.utils.DateUtils
 import com.ismkr.schedio.utils.Error
+import com.ismkr.schedio.viewmodels.FirestoreViewModel
 import java.util.*
 
 class AddTaskFragment : Fragment(), OnItemClicked {
 
     private lateinit var binding: FragmentAddTaskBinding
-    private lateinit var activity: HomeActivity
-    private lateinit var subtaskAdapter: SubtaskAdapter
+    private lateinit var homeActivity: HomeActivity
+    private lateinit var firestoreViewModel: FirestoreViewModel
+    private lateinit var taskAdapter: TaskAdapter
+    private lateinit var user: User
 
     private val calendar = Calendar.getInstance()
 
@@ -38,7 +42,9 @@ class AddTaskFragment : Fragment(), OnItemClicked {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAddTaskBinding.inflate(inflater, container, false)
-        activity = getActivity() as HomeActivity
+        homeActivity = getActivity() as HomeActivity
+        firestoreViewModel = homeActivity.firestoreViewModel()
+        user = homeActivity.getUser()
 
         binding.arrowBack.setOnClickListener {
             findNavController().navigateUp()
@@ -71,12 +77,12 @@ class AddTaskFragment : Fragment(), OnItemClicked {
                 val link = binding.taskLinkSpinner.selectedItem as String
                 val duration = DateUtils.fromLetterToHMFormat(requireContext(), binding.taskDurationSpinner.selectedItem as String)
 
-                val task = Task(taskName, date, time, desc, link)
+                val task = Activity(taskName, date, time, desc, link)
                 task.creationDate = DateUtils.todayDate
-                task.subTasks.addAll(subtaskAdapter.getSubtasks())
+                task.tasks.addAll(taskAdapter.getTasks())
                 task.duration = duration
 
-                activity.addTask(task)
+                firestoreViewModel.addTask(user, task)
             } else {
                 Error.makeToast(requireContext(), "Please, enter task name!")
             }
@@ -98,7 +104,8 @@ class AddTaskFragment : Fragment(), OnItemClicked {
         adapter.setDropDownViewResource(R.layout.spinner_text)
         spinner.adapter = adapter
 
-        activity.getUserProjects().observe(
+        firestoreViewModel.getUserProjects(user)
+        firestoreViewModel.userProjectsLiveData.observe(
             viewLifecycleOwner,
             { projectList ->
                 if (projectList != null) {
@@ -126,19 +133,18 @@ class AddTaskFragment : Fragment(), OnItemClicked {
 
     private fun setupSubtasksRecyclerView() {
         val subtaskRecyclerView = binding.subtasksRecyclerview
-        subtaskAdapter = SubtaskAdapter()
-        subtaskAdapter.setOnClickListener(this)
+        taskAdapter = TaskAdapter()
 
         subtaskRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         subtaskRecyclerView.isNestedScrollingEnabled = false
-        subtaskRecyclerView.adapter = subtaskAdapter
+        subtaskRecyclerView.adapter = taskAdapter
 
         binding.addSubtaskButton.setOnClickListener {
-            showAddSubtaskDialog(subtaskAdapter)
+            showAddSubtaskDialog(taskAdapter)
         }
     }
 
-    private fun showAddSubtaskDialog(adapter: SubtaskAdapter) {
+    private fun showAddSubtaskDialog(adapter: TaskAdapter) {
         val addSubtaskDialog = Dialog(requireContext())
         addSubtaskDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         addSubtaskDialog.setCancelable(true)
@@ -154,7 +160,7 @@ class AddTaskFragment : Fragment(), OnItemClicked {
             if (subtaskText.isNotBlank()) {
                 binding.subtasksRecyclerview.visibility = View.VISIBLE
                 binding.emptySubtask.visibility = View.GONE
-                adapter.addSubtask(subtaskText)
+                adapter.addTask(subtaskText)
                 addSubtaskDialog.cancel()
             } else {
                 addSubtaskDialog.cancel()
@@ -275,7 +281,7 @@ class AddTaskFragment : Fragment(), OnItemClicked {
     }
 
     override fun removeItemClick(position: Int) {
-        if (subtaskAdapter.removeItemByPosition(position) == 0) {
+        if (taskAdapter.removeItemByPosition(position) == 0) {
             binding.subtasksRecyclerview.visibility = View.GONE
             binding.emptySubtask.visibility = View.VISIBLE
         }

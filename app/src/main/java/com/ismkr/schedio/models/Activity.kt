@@ -1,6 +1,6 @@
 package com.ismkr.schedio.models
 
-data class Task(
+data class Activity(
     var name: String = "",
     var date: String = "",
     var time: String = "",
@@ -10,6 +10,6 @@ data class Task(
     var tid: String = ""
     var uid: String = ""
     var duration: String = ""
-    var subTasks = mutableListOf<String>()
+    var tasks = mutableListOf<String>()
     var creationDate: String = ""
 }
