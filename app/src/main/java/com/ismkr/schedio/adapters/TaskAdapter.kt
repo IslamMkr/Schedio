@@ -4,12 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.recyclerview.widget.RecyclerView
 import com.ismkr.schedio.R
+import com.ismkr.schedio.models.Task
 
 class TaskAdapter : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
 
-    private val taskList = mutableListOf<String>()
+    private val taskList = mutableListOf<Task>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_task, parent, false)
@@ -17,19 +19,22 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.taskText.text = taskList[position]
+        val task = taskList[position]
+
+        holder.task.text = task.name
+        holder.task.isChecked = task.done
     }
 
     override fun getItemCount(): Int = taskList.size
 
-    fun setTasks(tasks: List<String>) {
+    fun setTasks(tasks: List<Task>) {
         taskList.clear()
         taskList.addAll(tasks)
         notifyDataSetChanged()
     }
 
-    fun addTask(subtask: String) {
-        taskList.add(subtask)
+    fun addTask(task: Task) {
+        taskList.add(task)
         notifyDataSetChanged()
     }
 
@@ -42,7 +47,7 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
     fun getTasks() = taskList
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val taskText: CheckBox = itemView.findViewById(R.id.sub_task_checkbox)
+        val task: AppCompatCheckBox = itemView.findViewById(R.id.sub_task_checkbox)
     }
 
 }

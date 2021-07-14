@@ -12,8 +12,8 @@ import com.ismkr.schedio.R
 import com.ismkr.schedio.activities.HomeActivity
 import com.ismkr.schedio.adapters.ActivitySectionAdapter
 import com.ismkr.schedio.databinding.FragmentTaskBinding
-import com.ismkr.schedio.models.Activity
-import com.ismkr.schedio.models.Section
+import com.ismkr.schedio.interfaces.OnPopUpMenuItemClicked
+import com.ismkr.schedio.models.Action
 import com.ismkr.schedio.models.User
 import com.ismkr.schedio.utils.DateUtils
 import com.ismkr.schedio.utils.Error
@@ -21,7 +21,9 @@ import com.ismkr.schedio.viewmodels.FirestoreViewModel
 import java.util.*
 
 
-class TaskFragment : Fragment() {
+class TaskFragment :
+    Fragment(),
+    OnPopUpMenuItemClicked {
 
     private lateinit var homeActivity: HomeActivity
     private lateinit var firestoreViewModel: FirestoreViewModel
@@ -89,6 +91,7 @@ class TaskFragment : Fragment() {
     private fun setupRecyclerView() {
         val recyclerView = binding.sectionsRecyclerView
         adapter = ActivitySectionAdapter(requireContext())
+        adapter.setOnPopUpMenuItemListener(this)
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.isNestedScrollingEnabled = false
@@ -106,6 +109,10 @@ class TaskFragment : Fragment() {
                         adapter.notifyDataSetChanged()
                 }
         )
+    }
+
+    override fun onMenuItemClicked(position: Int, action: Action) {
+        Error.makeToast(requireContext(), "position : $position\naction : ${action.name}")
     }
 
 }

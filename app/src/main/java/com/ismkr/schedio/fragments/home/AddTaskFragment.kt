@@ -20,6 +20,7 @@ import com.ismkr.schedio.adapters.TaskAdapter
 import com.ismkr.schedio.databinding.FragmentAddTaskBinding
 import com.ismkr.schedio.interfaces.OnItemClicked
 import com.ismkr.schedio.models.Activity
+import com.ismkr.schedio.models.Task
 import com.ismkr.schedio.models.User
 import com.ismkr.schedio.utils.DateUtils
 import com.ismkr.schedio.utils.Error
@@ -42,7 +43,7 @@ class AddTaskFragment : Fragment(), OnItemClicked {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAddTaskBinding.inflate(inflater, container, false)
-        homeActivity = getActivity() as HomeActivity
+        homeActivity = activity as HomeActivity
         firestoreViewModel = homeActivity.firestoreViewModel()
         user = homeActivity.getUser()
 
@@ -145,33 +146,33 @@ class AddTaskFragment : Fragment(), OnItemClicked {
     }
 
     private fun showAddSubtaskDialog(adapter: TaskAdapter) {
-        val addSubtaskDialog = Dialog(requireContext())
-        addSubtaskDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        addSubtaskDialog.setCancelable(true)
-        addSubtaskDialog.setContentView(R.layout.dialog_add_subtask)
+        val addTaskDialog = Dialog(requireContext())
+        addTaskDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        addTaskDialog.setCancelable(true)
+        addTaskDialog.setContentView(R.layout.dialog_add_subtask)
 
-        val subtaskEditText = addSubtaskDialog.findViewById<EditText>(R.id.sub_task)
-        val addButton = addSubtaskDialog.findViewById<Button>(R.id.add_subtask_button)
-        val cancelButton = addSubtaskDialog.findViewById<Button>(R.id.cancel_button)
+        val taskEditText = addTaskDialog.findViewById<EditText>(R.id.sub_task)
+        val addButton = addTaskDialog.findViewById<Button>(R.id.add_subtask_button)
+        val cancelButton = addTaskDialog.findViewById<Button>(R.id.cancel_button)
 
         addButton.setOnClickListener {
-            val subtaskText = subtaskEditText.text.toString().trim()
+            val taskText = taskEditText.text.toString().trim()
 
-            if (subtaskText.isNotBlank()) {
+            if (taskText.isNotBlank()) {
                 binding.subtasksRecyclerview.visibility = View.VISIBLE
                 binding.emptySubtask.visibility = View.GONE
-                adapter.addTask(subtaskText)
-                addSubtaskDialog.cancel()
+                adapter.addTask(Task(taskText))
+                addTaskDialog.cancel()
             } else {
-                addSubtaskDialog.cancel()
+                addTaskDialog.cancel()
             }
         }
 
         cancelButton.setOnClickListener {
-            addSubtaskDialog.cancel()
+            addTaskDialog.cancel()
         }
 
-        addSubtaskDialog.show()
+        addTaskDialog.show()
     }
 
     private fun setupTime() {

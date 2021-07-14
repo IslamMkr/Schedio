@@ -5,6 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.marginEnd
+import androidx.core.view.marginRight
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.ismkr.schedio.R
@@ -46,7 +49,7 @@ class HomeProjectAdapter(
         val daysLeft = DateUtils.calculateTimeLeft(currentProject.deadline)
 
         holder.projectTimeLeft.text = "$daysLeft days"
-        holder.projectCompletedActivities.text = "2/8"
+        holder.projectCompletedActivities.text = "2 Task / 8 Task"
         holder.projectProgressBar.progress = currentProject.progress
 
         val progress = "${currentProject.progress}%"

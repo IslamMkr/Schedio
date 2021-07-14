@@ -9,12 +9,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ismkr.schedio.R
+import com.ismkr.schedio.interfaces.OnPopUpMenuItemClicked
 import com.ismkr.schedio.models.Section
 
-class ActivitySectionAdapter(val context: Context)
+class ActivitySectionAdapter(private val context: Context)
     : RecyclerView.Adapter<ActivitySectionAdapter.ViewHolder>() {
 
     private var activitySectionsList = mutableListOf<Section>()
+    private lateinit var listener: OnPopUpMenuItemClicked
 
     fun setActivitySectionsList(activities: List<Section>) {
         activitySectionsList = activities.toMutableList()
@@ -35,6 +37,7 @@ class ActivitySectionAdapter(val context: Context)
         holder.recyclerView.layoutManager = LinearLayoutManager(context)
         holder.recyclerView.isNestedScrollingEnabled = false
         val adapter = ActivityAdapter(context, section.title)
+        adapter.setPopUpMenuListener(listener)
         adapter.setActivityList(section.activities)
         holder.recyclerView.adapter = adapter
     }
@@ -44,6 +47,10 @@ class ActivitySectionAdapter(val context: Context)
     }
 
     override fun getItemCount(): Int = activitySectionsList.size
+
+    fun setOnPopUpMenuItemListener(listener: OnPopUpMenuItemClicked) {
+        this.listener = listener
+    }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.section_title)

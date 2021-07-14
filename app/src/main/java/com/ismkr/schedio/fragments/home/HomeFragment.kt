@@ -5,16 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ismkr.schedio.R
 import com.ismkr.schedio.activities.HomeActivity
+import com.ismkr.schedio.adapters.ActivityAdapter
 import com.ismkr.schedio.adapters.HomeProjectAdapter
-import com.ismkr.schedio.adapters.HomeTaskAdapter
 import com.ismkr.schedio.databinding.FragmentHomeBinding
 import com.ismkr.schedio.models.User
 import com.ismkr.schedio.utils.DateUtils
-import com.ismkr.schedio.utils.Error
 import com.ismkr.schedio.viewmodels.FirestoreViewModel
 
 class HomeFragment : Fragment() {
@@ -52,8 +50,8 @@ class HomeFragment : Fragment() {
         val projectRecyclerView = binding.projectsRecyclerview
         val adapter = context?.let { HomeProjectAdapter(it) }
 
-        projectRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-        projectRecyclerView.isNestedScrollingEnabled = false
+        projectRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        projectRecyclerView.isNestedScrollingEnabled = true
         projectRecyclerView.adapter = adapter
 
         firestoreViewModel.getUserProjects(user)
@@ -75,7 +73,7 @@ class HomeFragment : Fragment() {
 
     private fun setupTaskRecyclerView() {
         val tasksRecyclerView = binding.tasksRecyclerview
-        val adapter = HomeTaskAdapter()
+        val adapter = ActivityAdapter(requireContext())
 
         tasksRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         tasksRecyclerView.isNestedScrollingEnabled = false
@@ -87,14 +85,17 @@ class HomeFragment : Fragment() {
             {
                 taskList ->
                 if (taskList != null) {
-                    binding.upcomingTaskTitle.text = taskList[0].name
-                    binding.dayTasksNumber.text = taskList.size.toString()
+                    val percentage = (1 * 100 / taskList.size)
+                    binding.percentage.text = "$percentage%"
+                    binding.progressIndicator.progress = percentage
+                    binding.dayTasks.text = "1 Task / ${taskList.size} Task"
                     binding.noTasksTv.visibility = View.GONE
                     tasksRecyclerView.visibility = View.VISIBLE
-                    adapter.setTasks(taskList)
+                    adapter.setActivityList(taskList)
                 } else {
-                    binding.upcomingTaskTitle.text = "Nothing"
-                    binding.dayTasksNumber.text = "0"
+                    binding.percentage.text = "100%"
+                    binding.progressIndicator.progress = 100
+                    binding.dayTasks.text = "0 Task / 0 Task"
                     binding.noTasksTv.visibility = View.VISIBLE
                     tasksRecyclerView.visibility = View.GONE
                 }
@@ -103,8 +104,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupDate() {
-        binding.dayDate.text = DateUtils.todayDate.substring(3, 5)
-        binding.monthDate.text = getString(DateUtils.getThisMonthResId())
+        binding.dateTv.text = DateUtils.fromMDYFormatToUIFormat(DateUtils.todayDate, requireContext())
     }
 
 }

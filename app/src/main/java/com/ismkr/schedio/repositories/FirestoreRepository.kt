@@ -6,10 +6,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.ismkr.schedio.interfaces.OnDatabaseUpdated
-import com.ismkr.schedio.models.Priority
-import com.ismkr.schedio.models.Project
-import com.ismkr.schedio.models.Activity
-import com.ismkr.schedio.models.User
+import com.ismkr.schedio.models.*
 import com.ismkr.schedio.utils.DateUtils
 import com.ismkr.schedio.utils.Error
 
@@ -140,7 +137,16 @@ class FirestoreRepository {
             activity.description = document.get("description").toString()
             activity.duration = document.get("duration").toString()
             if (document.get("tasks") != null) {
-                activity.tasks.addAll(document.get("tasks") as MutableList<String>)
+                val tasksAsHashMap = document.get("tasks") as MutableList<HashMap<String, *>>
+
+                for (task in tasksAsHashMap) {
+                    activity.tasks.add(
+                        Task(
+                            task["name"].toString(), 
+                            task["done"] as Boolean
+                        )
+                    )
+                }
             }
             activity.link = document.get("link").toString()
             activity.creationDate = document.get("creationDate").toString()

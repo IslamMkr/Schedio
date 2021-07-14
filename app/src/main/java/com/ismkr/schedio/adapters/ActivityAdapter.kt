@@ -1,23 +1,30 @@
 package com.ismkr.schedio.adapters
 
 import android.content.Context
-import android.os.Build
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatCheckBox
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ismkr.schedio.R
+import com.ismkr.schedio.interfaces.OnPopUpMenuItemClicked
 import com.ismkr.schedio.models.Activity
+import com.ismkr.schedio.utils.Error
 
-class ActivityAdapter(private val context: Context, private val status: String) : RecyclerView.Adapter<ActivityAdapter.ViewHolder>() {
+
+class ActivityAdapter(private val context: Context, private val status: String = "") :
+    RecyclerView.Adapter<ActivityAdapter.ViewHolder>()
+{
 
     private lateinit var activityList: MutableList<Activity>
+    private lateinit var popUpMenuItemListener: OnPopUpMenuItemClicked
+
+    fun setPopUpMenuListener(listener: OnPopUpMenuItemClicked) {
+        popUpMenuItemListener = listener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = when (viewType) {
@@ -34,16 +41,20 @@ class ActivityAdapter(private val context: Context, private val status: String) 
         if (activity.tasks.isNullOrEmpty()) {
             holder.checkBox!!.text = activity.name
         } else {
-            holder.status!!.setImageDrawable(
-                ContextCompat.getDrawable(
-                    context,
-                    when (status) {
-                        "In Progress" -> R.drawable.circle_activity_status_inprogress
-                        "Done" -> R.drawable.circle_activity_status_done
-                        else -> R.drawable.circle_activity_status_todo
-                    }
+            if (!status.isNullOrBlank()) {
+                holder.status!!.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        context,
+                        when (status) {
+                            "In Progress" -> R.drawable.circle_activity_status_inprogress
+                            "Done" -> R.drawable.circle_activity_status_done
+                            else -> R.drawable.circle_activity_status_todo
+                        }
+                    )
                 )
-            )
+            } else {
+                holder.status!!.visibility = View.GONE
+            }
 
             if (holder.title != null) holder.title.text = activity.name
             if (holder.description != null) {
@@ -65,6 +76,22 @@ class ActivityAdapter(private val context: Context, private val status: String) 
 
         if (holder.date != null) holder.date.text = activity.date
         if (holder.time != null) holder.time.text = activity.time
+
+        if (holder.menu != null) {
+            holder.menu.setOnClickListener { view ->
+                val popup = PopupMenu(context, view)
+                val inflater: MenuInflater = popup.menuInflater
+                inflater.inflate(R.menu.activity_popup_menu, popup.menu)
+
+                popup.setOnMenuItemClickListener {
+                    Error.makeToast(context, "Hello papa")
+                    true
+                }
+
+
+                popup.show()
+            }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -91,6 +118,7 @@ class ActivityAdapter(private val context: Context, private val status: String) 
         val time: TextView? = itemView.findViewById(R.id.time)
         val date: TextView? = itemView.findViewById(R.id.date)
         val recyclerView: RecyclerView? = itemView.findViewById(R.id.tasks_recycler_view)
+        val menu: ImageView? = itemView.findViewById(R.id.menu_dots)
 
         val checkBox: AppCompatCheckBox? = if (viewType == 0) {
             itemView.findViewById(R.id.title)

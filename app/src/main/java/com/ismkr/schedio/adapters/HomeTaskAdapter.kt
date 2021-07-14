@@ -13,7 +13,7 @@ class HomeTaskAdapter : RecyclerView.Adapter<HomeTaskAdapter.ViewHolder>() {
     private val taskList = mutableListOf<Activity>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_task_home, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_home_activity, parent, false)
         return ViewHolder(itemView)
     }
 
