@@ -10,20 +10,25 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ismkr.schedio.R
+import com.ismkr.schedio.interfaces.OnItemClicked
 import com.ismkr.schedio.interfaces.OnPopUpMenuItemClicked
+import com.ismkr.schedio.models.Action
 import com.ismkr.schedio.models.Activity
 import com.ismkr.schedio.utils.Error
 
 
-class ActivityAdapter(private val context: Context, private val status: String = "") :
-    RecyclerView.Adapter<ActivityAdapter.ViewHolder>()
-{
+class ActivityAdapter(private val context: Context, private val status: String = "") : RecyclerView.Adapter<ActivityAdapter.ViewHolder>() {
 
     private lateinit var activityList: MutableList<Activity>
-    private lateinit var popUpMenuItemListener: OnPopUpMenuItemClicked
+    private lateinit var popUpMenuItemClickListener: OnPopUpMenuItemClicked
+    private lateinit var itemClickListener: OnItemClicked
 
-    fun setPopUpMenuListener(listener: OnPopUpMenuItemClicked) {
-        popUpMenuItemListener = listener
+    fun setOnPopUpMenuClickListener(listener: OnPopUpMenuItemClicked) {
+        popUpMenuItemClickListener = listener
+    }
+
+    fun setOnItemClickListener(listener: OnItemClicked) {
+        itemClickListener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -78,13 +83,19 @@ class ActivityAdapter(private val context: Context, private val status: String =
         if (holder.time != null) holder.time.text = activity.time
 
         if (holder.menu != null) {
+            // Card menu clicked
             holder.menu.setOnClickListener { view ->
                 val popup = PopupMenu(context, view)
                 val inflater: MenuInflater = popup.menuInflater
                 inflater.inflate(R.menu.activity_popup_menu, popup.menu)
 
+                // Menu item clicked
                 popup.setOnMenuItemClickListener {
-                    Error.makeToast(context, "Hello papa")
+                    if (it.title.equals("Edit")) {
+                        popUpMenuItemClickListener.menuItemClicked(position, Action.EDIT)
+                    } else {
+                        popUpMenuItemClickListener.menuItemClicked(position, Action.DELETE)
+                    }
                     true
                 }
 
@@ -92,6 +103,12 @@ class ActivityAdapter(private val context: Context, private val status: String =
                 popup.show()
             }
         }
+
+        // Card item clicked
+        holder.itemView.setOnClickListener {
+            itemClickListener.itemClicked(position)
+        }
+
     }
 
     override fun getItemCount(): Int {

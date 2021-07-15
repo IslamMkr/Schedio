@@ -1,6 +1,7 @@
 package com.ismkr.schedio.fragments.home
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ismkr.schedio.R
+import com.ismkr.schedio.activities.ActivityActivity
 import com.ismkr.schedio.activities.HomeActivity
 import com.ismkr.schedio.adapters.ActivitySectionAdapter
 import com.ismkr.schedio.databinding.FragmentTaskBinding
+import com.ismkr.schedio.interfaces.OnItemClicked
 import com.ismkr.schedio.interfaces.OnPopUpMenuItemClicked
 import com.ismkr.schedio.models.Action
 import com.ismkr.schedio.models.User
@@ -23,7 +26,9 @@ import java.util.*
 
 class TaskFragment :
     Fragment(),
-    OnPopUpMenuItemClicked {
+    OnPopUpMenuItemClicked,
+    OnItemClicked
+{
 
     private lateinit var homeActivity: HomeActivity
     private lateinit var firestoreViewModel: FirestoreViewModel
@@ -91,7 +96,8 @@ class TaskFragment :
     private fun setupRecyclerView() {
         val recyclerView = binding.sectionsRecyclerView
         adapter = ActivitySectionAdapter(requireContext())
-        adapter.setOnPopUpMenuItemListener(this)
+        adapter.setOnPopUpMenuItemClickListener(this)
+        adapter.setOnItemClickListener(this)
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.isNestedScrollingEnabled = false
@@ -111,8 +117,12 @@ class TaskFragment :
         )
     }
 
-    override fun onMenuItemClicked(position: Int, action: Action) {
-        Error.makeToast(requireContext(), "position : $position\naction : ${action.name}")
+    override fun menuItemClicked(position: Int, action: Action) {
+        Error.makeToast(requireContext(), "Menu item clicked -> ${action.name}")
+    }
+
+    override fun itemClicked(position: Int) {
+        startActivity(Intent(homeActivity, ActivityActivity::class.java))
     }
 
 }

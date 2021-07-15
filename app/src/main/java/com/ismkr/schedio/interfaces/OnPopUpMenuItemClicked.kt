@@ -4,6 +4,6 @@ import com.ismkr.schedio.models.Action
 
 interface OnPopUpMenuItemClicked {
 
-    fun onMenuItemClicked(position: Int, action: Action)
+    fun menuItemClicked(position: Int, action: Action)
 
 }

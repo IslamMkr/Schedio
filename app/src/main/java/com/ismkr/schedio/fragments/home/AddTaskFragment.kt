@@ -18,7 +18,6 @@ import com.ismkr.schedio.R
 import com.ismkr.schedio.activities.HomeActivity
 import com.ismkr.schedio.adapters.TaskAdapter
 import com.ismkr.schedio.databinding.FragmentAddTaskBinding
-import com.ismkr.schedio.interfaces.OnItemClicked
 import com.ismkr.schedio.models.Activity
 import com.ismkr.schedio.models.Task
 import com.ismkr.schedio.models.User
@@ -27,7 +26,7 @@ import com.ismkr.schedio.utils.Error
 import com.ismkr.schedio.viewmodels.FirestoreViewModel
 import java.util.*
 
-class AddTaskFragment : Fragment(), OnItemClicked {
+class AddTaskFragment : Fragment() {
 
     private lateinit var binding: FragmentAddTaskBinding
     private lateinit var homeActivity: HomeActivity
@@ -62,12 +61,12 @@ class AddTaskFragment : Fragment(), OnItemClicked {
         setupLinkSpinner()
         setupDurationSpinner()
 
-        addTaskClick()
+        addTaskClicked()
 
         return binding.root
     }
 
-    private fun addTaskClick() {
+    private fun addTaskClicked() {
         binding.addTaskButton.setOnClickListener {
             val taskName = binding.taskNameEt.text.toString().trim()
 
@@ -141,11 +140,11 @@ class AddTaskFragment : Fragment(), OnItemClicked {
         subtaskRecyclerView.adapter = taskAdapter
 
         binding.addSubtaskButton.setOnClickListener {
-            showAddSubtaskDialog(taskAdapter)
+            showAddTaskDialog(taskAdapter)
         }
     }
 
-    private fun showAddSubtaskDialog(adapter: TaskAdapter) {
+    private fun showAddTaskDialog(adapter: TaskAdapter) {
         val addTaskDialog = Dialog(requireContext())
         addTaskDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         addTaskDialog.setCancelable(true)
@@ -278,13 +277,6 @@ class AddTaskFragment : Fragment(), OnItemClicked {
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)
             ).show()
-        }
-    }
-
-    override fun removeItemClick(position: Int) {
-        if (taskAdapter.removeItemByPosition(position) == 0) {
-            binding.subtasksRecyclerview.visibility = View.GONE
-            binding.emptySubtask.visibility = View.VISIBLE
         }
     }
 

@@ -2,6 +2,6 @@ package com.ismkr.schedio.interfaces
 
 interface OnItemClicked {
 
-    fun removeItemClick(position: Int)
+    fun itemClicked(position: Int)
 
 }
