@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import com.ismkr.schedio.R
 import com.ismkr.schedio.activities.ActivityActivity
 import com.ismkr.schedio.activities.HomeActivity
@@ -17,7 +18,9 @@ import com.ismkr.schedio.databinding.FragmentTaskBinding
 import com.ismkr.schedio.interfaces.OnItemClicked
 import com.ismkr.schedio.interfaces.OnPopUpMenuItemClicked
 import com.ismkr.schedio.models.Action
+import com.ismkr.schedio.models.Activity
 import com.ismkr.schedio.models.User
+import com.ismkr.schedio.utils.Constants
 import com.ismkr.schedio.utils.DateUtils
 import com.ismkr.schedio.utils.Error
 import com.ismkr.schedio.viewmodels.FirestoreViewModel
@@ -117,12 +120,19 @@ class TaskFragment :
         )
     }
 
-    override fun menuItemClicked(position: Int, action: Action) {
+    override fun menuItemClicked(position: Int, activity: Activity, action: Action) {
         Error.makeToast(requireContext(), "Menu item clicked -> ${action.name}")
     }
 
-    override fun itemClicked(position: Int) {
-        startActivity(Intent(homeActivity, ActivityActivity::class.java))
+    override fun itemClicked(position: Int, activity: Activity) {
+        val intent = Intent(homeActivity, ActivityActivity::class.java)
+        val userGsonString = Gson().toJson(user)
+        val activityGsonString = Gson().toJson(activity)
+
+        intent.putExtra(Constants.USER_CODE, userGsonString)
+        intent.putExtra(Constants.ACTIVITY_CODE, activityGsonString)
+
+        startActivity(intent)
     }
 
 }

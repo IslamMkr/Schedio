@@ -3,15 +3,12 @@ package com.ismkr.schedio.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.ismkr.schedio.R
 import com.ismkr.schedio.databinding.ActivityHomeBinding
 import com.ismkr.schedio.interfaces.OnDatabaseUpdated
-import com.ismkr.schedio.models.Project
-import com.ismkr.schedio.models.Activity
 import com.ismkr.schedio.models.User
 import com.ismkr.schedio.viewmodels.FirestoreViewModel
 import com.ismkr.schedio.utils.Error

@@ -92,9 +92,9 @@ class ActivityAdapter(private val context: Context, private val status: String =
                 // Menu item clicked
                 popup.setOnMenuItemClickListener {
                     if (it.title.equals("Edit")) {
-                        popUpMenuItemClickListener.menuItemClicked(position, Action.EDIT)
+                        popUpMenuItemClickListener.menuItemClicked(position, activityList[position], Action.EDIT)
                     } else {
-                        popUpMenuItemClickListener.menuItemClicked(position, Action.DELETE)
+                        popUpMenuItemClickListener.menuItemClicked(position, activityList[position], Action.DELETE)
                     }
                     true
                 }
@@ -106,7 +106,7 @@ class ActivityAdapter(private val context: Context, private val status: String =
 
         // Card item clicked
         holder.itemView.setOnClickListener {
-            itemClickListener.itemClicked(position)
+            itemClickListener.itemClicked(position, activityList[position])
         }
 
     }

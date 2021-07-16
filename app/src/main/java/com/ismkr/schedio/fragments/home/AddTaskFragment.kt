@@ -16,7 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ismkr.schedio.R
 import com.ismkr.schedio.activities.HomeActivity
-import com.ismkr.schedio.adapters.TaskAdapter
+import com.ismkr.schedio.adapters.TaskWithRemoveOptionAdapter
 import com.ismkr.schedio.databinding.FragmentAddTaskBinding
 import com.ismkr.schedio.models.Activity
 import com.ismkr.schedio.models.Task
@@ -31,7 +31,7 @@ class AddTaskFragment : Fragment() {
     private lateinit var binding: FragmentAddTaskBinding
     private lateinit var homeActivity: HomeActivity
     private lateinit var firestoreViewModel: FirestoreViewModel
-    private lateinit var taskAdapter: TaskAdapter
+    private lateinit var taskWithRemoveAdapter: TaskWithRemoveOptionAdapter
     private lateinit var user: User
 
     private val calendar = Calendar.getInstance()
@@ -79,7 +79,7 @@ class AddTaskFragment : Fragment() {
 
                 val task = Activity(taskName, date, time, desc, link)
                 task.creationDate = DateUtils.todayDate
-                task.tasks.addAll(taskAdapter.getTasks())
+                task.tasks.addAll(taskWithRemoveAdapter.tasks())
                 task.duration = duration
 
                 firestoreViewModel.addTask(user, task)
@@ -133,26 +133,26 @@ class AddTaskFragment : Fragment() {
 
     private fun setupSubtasksRecyclerView() {
         val subtaskRecyclerView = binding.subtasksRecyclerview
-        taskAdapter = TaskAdapter()
+        taskWithRemoveAdapter = TaskWithRemoveOptionAdapter()
 
         subtaskRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         subtaskRecyclerView.isNestedScrollingEnabled = false
-        subtaskRecyclerView.adapter = taskAdapter
+        subtaskRecyclerView.adapter = taskWithRemoveAdapter
 
         binding.addSubtaskButton.setOnClickListener {
-            showAddTaskDialog(taskAdapter)
+            showAddTaskDialog()
         }
     }
 
-    private fun showAddTaskDialog(adapter: TaskAdapter) {
+    private fun showAddTaskDialog() {
         val addTaskDialog = Dialog(requireContext())
         addTaskDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         addTaskDialog.setCancelable(true)
-        addTaskDialog.setContentView(R.layout.dialog_add_subtask)
+        addTaskDialog.setContentView(R.layout.dialog_add_task)
 
-        val taskEditText = addTaskDialog.findViewById<EditText>(R.id.sub_task)
-        val addButton = addTaskDialog.findViewById<Button>(R.id.add_subtask_button)
-        val cancelButton = addTaskDialog.findViewById<Button>(R.id.cancel_button)
+        val taskEditText: EditText = addTaskDialog.findViewById(R.id.task)
+        val addButton: Button = addTaskDialog.findViewById(R.id.add_task_button)
+        val cancelButton: Button = addTaskDialog.findViewById(R.id.cancel_button)
 
         addButton.setOnClickListener {
             val taskText = taskEditText.text.toString().trim()
@@ -160,7 +160,7 @@ class AddTaskFragment : Fragment() {
             if (taskText.isNotBlank()) {
                 binding.subtasksRecyclerview.visibility = View.VISIBLE
                 binding.emptySubtask.visibility = View.GONE
-                adapter.addTask(Task(taskText))
+                taskWithRemoveAdapter.addTask(Task(taskText))
                 addTaskDialog.cancel()
             } else {
                 addTaskDialog.cancel()

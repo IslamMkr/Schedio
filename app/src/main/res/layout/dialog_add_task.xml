@@ -10,50 +10,56 @@
         android:id="@+id/tv1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_bold"
-        android:text="@string/sub_task"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Create a new task."
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/sub_task"
+        android:id="@+id/task"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_medium"
-        android:hint="@string/your_sub_task"
+        android:fontFamily="@font/roboto_regular"
+        android:hint="Your task. (ex: Workout)"
         android:inputType="textCapSentences"
         android:paddingBottom="15dp"
         android:textColor="@color/black"
         android:textSize="14sp"
-        app:backgroundTint="@color/blue"
+        app:backgroundTint="@color/background_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv1"
         android:layout_marginTop="16dp" />
 
-    <Button
-        android:id="@+id/add_subtask_button"
+    <TextView
+        android:id="@+id/add_task_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/roboto_regular"
-        android:text="@string/add"
+        android:text="Create"
+        android:textSize="16sp"
+        android:textColor="#0051A3"
+        android:background="#8FC7FE"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sub_task" />
+        app:layout_constraintTop_toBottomOf="@+id/task"/>
 
-    <Button
+    <TextView
         android:id="@+id/cancel_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
         android:fontFamily="@font/roboto_regular"
         android:text="@string/cancel"
         android:textColor="@color/black"
-        android:backgroundTint="@color/background_color"
-        app:layout_constraintEnd_toStartOf="@id/add_subtask_button"
-        app:layout_constraintTop_toBottomOf="@+id/sub_task"
-        android:layout_marginEnd="16dp"/>
+        app:layout_constraintBottom_toBottomOf="@+id/add_task_button"
+        app:layout_constraintEnd_toStartOf="@id/add_task_button"
+        app:layout_constraintTop_toTopOf="@+id/add_task_button"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
